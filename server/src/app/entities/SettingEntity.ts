@@ -10,17 +10,13 @@ import { v4 as uuid } from 'uuid';
 
 @Entity('settings')
 class SettingEntity {
-  constructor() {
-    if (!this.id) this.id = uuid();
-  }
-
-  @PrimaryColumn()
+  @PrimaryColumn('varchar')
   id: string;
 
-  @Column()
+  @Column('varchar')
   username: string;
 
-  @Column()
+  @Column('boolean')
   chat: boolean;
 
   @UpdateDateColumn()
@@ -28,6 +24,10 @@ class SettingEntity {
 
   @CreateDateColumn()
   created_at: Date;
+
+  constructor() {
+    if (!this.id) this.id = uuid();
+  }
 }
 
 export { SettingEntity };
