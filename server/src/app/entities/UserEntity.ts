@@ -8,16 +8,13 @@ import {
 
 import { v4 as uuid } from 'uuid';
 
-@Entity('settings')
-class SettingEntity {
+@Entity('users')
+class UserEntity {
   @PrimaryColumn('uuid')
   id: string;
 
   @Column('varchar')
-  username: string;
-
-  @Column('boolean')
-  chat: boolean;
+  email: string;
 
   @UpdateDateColumn()
   updated_at: Date;
@@ -30,4 +27,4 @@ class SettingEntity {
   }
 }
 
-export { SettingEntity };
+export { UserEntity };

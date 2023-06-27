@@ -1,3 +1,4 @@
-import { SettingService } from './SettingService';
+import SettingService from './SettingService';
+import UserService from './UserService';
 
-export { SettingService };
+export { SettingService, UserService };

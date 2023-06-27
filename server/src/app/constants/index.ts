@@ -1,0 +1,13 @@
+export const ERROR = {
+  NOT_FOUND: 404,
+  FORBIDDEN_ACCESS: 403,
+  UNAUTHORIZED: 401,
+  TRY_AGAIN: 500,
+  DUPLICATE_FOUND: 409,
+  BAD_REQUEST: 400,
+};
+
+export const SUCCESS = {
+  OK: 200,
+  CREATED: 201,
+};

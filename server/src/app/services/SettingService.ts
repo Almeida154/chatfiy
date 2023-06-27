@@ -1,3 +1,5 @@
+import { ERROR } from '../constants';
+import { ErrorHandler } from '../models';
 import { SettingRepository } from '../repositories';
 
 interface ICreate {
@@ -7,6 +9,11 @@ interface ICreate {
 
 class SettingService {
   create = async ({ chat, username }: ICreate) => {
+    const isUsernameInUse = await SettingRepository.findOne({ where: { username } });
+
+    if (isUsernameInUse)
+      throw new ErrorHandler('Username already in use', ERROR.DUPLICATE_FOUND);
+
     const setting = SettingRepository.create({ chat, username });
     await SettingRepository.save(setting);
 
@@ -14,4 +21,4 @@ class SettingService {
   };
 }
 
-export { SettingService };
+export default new SettingService();
