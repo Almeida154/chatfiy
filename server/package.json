@@ -8,6 +8,7 @@
     "migration:run": "npx typeorm-ts-node-esm migration:run -d ./src/app/data-source.ts"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "reflect-metadata": "^0.1.13",
     "socket.io": "^4.7.1",

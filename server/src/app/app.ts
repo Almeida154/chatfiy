@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import { createServer, Server as HTTPServer } from 'http';
 import { Server, Socket } from 'socket.io';
+import cors from 'cors';
 
 import { routes } from './routes';
 import AppDataSource from './data-source';
@@ -13,10 +14,11 @@ class App {
   constructor() {
     this.app = express();
     this.httpServer = createServer(this.app);
-    this.io = new Server(this.httpServer);
+    this.io = new Server(this.httpServer, { cors: { origin: '*' } });
   }
 
   public initialize(): void {
+    this.configureCors();
     this.configureWebSocket();
     this.configureDataSource();
     this.configureMiddleware();
@@ -40,6 +42,10 @@ class App {
 
   private configureRoutes(): void {
     this.app.use(routes);
+  }
+
+  private configureCors(): void {
+    this.app.use(cors({ origin: 'http://127.0.0.1:5173' }));
   }
 
   public start(port: number): void {

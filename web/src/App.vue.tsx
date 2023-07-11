@@ -1,4 +1,5 @@
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
+import { io } from 'socket.io-client';
 
 const App = defineComponent({
   setup() {
@@ -7,6 +8,11 @@ const App = defineComponent({
     const increment = () => {
       count.value++;
     };
+
+    onMounted(async () => {
+      const socket = io('ws://127.0.0.1:3333');
+      console.log(socket);
+    });
 
     return () => (
       <div class="container">
