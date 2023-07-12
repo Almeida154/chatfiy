@@ -11,6 +11,7 @@
   "dependencies": {
     "@vitejs/plugin-vue-jsx": "^3.0.1",
     "axios": "^1.4.0",
+    "oh-vue-icons": "^1.0.0-rc3",
     "socket.io-client": "^4.7.1",
     "vue": "^3.3.4"
   },

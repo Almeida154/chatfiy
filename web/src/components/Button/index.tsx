@@ -1,9 +1,15 @@
-import { defineComponent } from 'vue';
+interface IButtonProps {
+  text: string;
+  onPress: () => void;
+}
 
-const Button = defineComponent({
-  setup() {
-    return () => <div class="container">oi</div>;
-  },
-});
+import './styles.css';
+
+const Button = ({ text, onPress }: IButtonProps) => (
+  <div role="button" class="button-container" onClick={onPress}>
+    <v-icon name="hi-chat-alt-2" />
+    <p>{text}</p>
+  </div>
+);
 
 export { Button };

@@ -3,7 +3,7 @@ import { io } from 'socket.io-client';
 
 import './styles.css';
 
-import { Logo } from '@/components';
+import { Logo, Button } from '@/components';
 
 const Home = defineComponent({
   setup() {
@@ -13,13 +13,19 @@ const Home = defineComponent({
       socketIO.value = io('ws://127.0.0.1:3333');
     });
 
+    const onFABPress = () => {
+      console.log('onFABPress');
+    };
+
     return () => (
       <div class="container">
-        <div class="logo">
-          <Logo primaryColor="#2F2F2F" secondColor="#262626" size={440} />
-        </div>
-
         <div class="grain"></div>
+
+        <Logo primaryColor="#2F2F2F" secondColor="#262626" size={440} />
+
+        <div class="fab">
+          <Button text="I need help" onPress={onFABPress} />
+        </div>
       </div>
     );
   },

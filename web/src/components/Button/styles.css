@@ -1,0 +1,28 @@
+.button-container {
+  background-color: #2f2f2f;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  padding: 0 24px;
+  cursor: pointer;
+  color: #8d8d8d;
+  gap: 8px;
+
+  box-shadow: 0 4px 5px #8d8d8d30 inset, -4px -4px 5px rgba(0, 0, 0, 0.1) inset,
+    10px 40px 40px rgba(0, 0, 0, 0.1);
+}
+
+.button-container:hover {
+  color: #ffffff;
+  background: radial-gradient(50% 37.5% at 50% 86.46%, #a283ff 0%, #703fff 100%);
+  outline: 4px solid #703fff70;
+  box-shadow: 0 4px 5px #a283ff inset, -4px -4px 5px rgba(0, 0, 0, 0.1) inset,
+    10px 40px 40px rgba(0, 0, 0, 0.1);
+}
+
+.button-container p {
+  font-size: 12px;
+  font-weight: 600;
+}
