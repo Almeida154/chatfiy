@@ -1,0 +1,17 @@
+.header-container {
+  background: #00000020;
+  color: #ffffff90;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-container .icon-container {
+  cursor: pointer;
+}
+
+.header-container .icon-container:hover {
+  color: #ffffff;
+}

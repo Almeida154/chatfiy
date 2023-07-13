@@ -15,6 +15,12 @@
 
 .fab {
   position: absolute;
+  right: -200px;
   bottom: 32px;
+  transition: 0.3s cubic-bezier(0.75, 0.82, 0.165, 1);
+}
+
+.fab.should-appear {
   right: 32px;
+  transition: 0.5s cubic-bezier(0.55, 0.055, 0.675, 0.19);
 }

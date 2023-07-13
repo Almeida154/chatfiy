@@ -131,6 +131,7 @@ table {
 body {
   margin: 0;
   background: linear-gradient(#171717, #131313);
+  overflow: hidden;
 }
 
 h1 {

@@ -1,31 +1,26 @@
-import { defineComponent, onMounted, ref } from 'vue';
-import { io } from 'socket.io-client';
+import { defineComponent, ref } from 'vue';
 
 import './styles.css';
 
-import { Logo, Button } from '@/components';
+import { Logo, Button, Chat } from '@/components';
 
 const Home = defineComponent({
   setup() {
-    const socketIO = ref();
+    const isChatOpen = ref(false);
 
-    onMounted(async () => {
-      socketIO.value = io('ws://127.0.0.1:3333');
-    });
-
-    const onFABPress = () => {
-      console.log('onFABPress');
-    };
+    const onChatOpen = () => (isChatOpen.value = true);
 
     return () => (
       <div class="container">
         <div class="grain"></div>
 
-        <Logo primaryColor="#2F2F2F" secondColor="#262626" size={440} />
+        <Logo primaryColor="#2F2F2F" secondaryColor="#262626" size={440} />
 
-        <div class="fab">
-          <Button text="I need help" onPress={onFABPress} />
+        <div class={!isChatOpen.value ? 'fab should-appear' : 'fab'}>
+          <Button text="I need help" icon="hi-chat-alt-2" onPress={onChatOpen} />
         </div>
+
+        <Chat isOpen={isChatOpen} />
       </div>
     );
   },
