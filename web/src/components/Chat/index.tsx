@@ -7,8 +7,9 @@ interface IChatProps {
 }
 
 import { CHAT_STEPS } from '@/utils/constants';
+import { Button, Input } from '@/components';
+
 import { Bubble, Header, Submitter } from './components';
-import { Button } from '@/components';
 
 import './styles.css';
 
@@ -20,6 +21,9 @@ const Chat = defineComponent({
   setup({ isOpen }: IChatProps) {
     const socketIO = ref<Socket | null>(null);
     const currentStep = ref(CHAT_STEPS.STARTING);
+
+    // const howCanWeHelp = ref<string>('');
+    const email = ref<string>('');
 
     onMounted(() => {
       socketIO.value = io('ws://127.0.0.1:3333');
@@ -42,6 +46,11 @@ const Chat = defineComponent({
       currentStep.value = CHAT_STEPS.CONVERSATION;
     };
 
+    const onChangeEmailText = (e: Event) => {
+      const value = (e.target as HTMLInputElement).value;
+      email.value = value;
+    };
+
     return () => (
       <div
         class={`${isOpen.value ? 'chat-container should-appear' : 'chat-container'}`}
@@ -50,6 +59,12 @@ const Chat = defineComponent({
 
         {currentStep.value === CHAT_STEPS.STARTING ? (
           <>
+            <Input
+              label="Email"
+              onInput={onChangeEmailText}
+              placeholder="Your e-mail here"
+            />
+
             <div class="button-wrapper">
               <Button
                 text="Start"
