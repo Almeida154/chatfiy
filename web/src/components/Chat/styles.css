@@ -10,12 +10,17 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 24px;
 
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 
   transition: 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+
+.textarea-wrapper {
+  flex: 1;
 }
 
 .chat-container.should-appear {

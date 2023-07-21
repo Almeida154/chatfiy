@@ -7,11 +7,12 @@ interface IChatProps {
 }
 
 import { CHAT_STEPS } from '@/utils/constants';
-import { Button, Input } from '@/components';
+import { Button, Input, Textarea } from '@/components';
 
 import { Bubble, Header, Submitter } from './components';
 
 import './styles.css';
+import { onChangeText } from '@/utils';
 
 const Chat = defineComponent({
   props: {
@@ -22,7 +23,7 @@ const Chat = defineComponent({
     const socketIO = ref<Socket | null>(null);
     const currentStep = ref(CHAT_STEPS.STARTING);
 
-    // const howCanWeHelp = ref<string>('');
+    const howCanWeHelp = ref<string>('');
     const email = ref<string>('');
 
     onMounted(() => {
@@ -46,11 +47,6 @@ const Chat = defineComponent({
       currentStep.value = CHAT_STEPS.CONVERSATION;
     };
 
-    const onChangeEmailText = (e: Event) => {
-      const value = (e.target as HTMLInputElement).value;
-      email.value = value;
-    };
-
     return () => (
       <div
         class={`${isOpen.value ? 'chat-container should-appear' : 'chat-container'}`}
@@ -59,9 +55,18 @@ const Chat = defineComponent({
 
         {currentStep.value === CHAT_STEPS.STARTING ? (
           <>
+            <div class="textarea-wrapper">
+              <Textarea
+                label="How can we help you?"
+                onInput={(e: Event) => onChangeText(e, howCanWeHelp)}
+                placeholder="Subject"
+                containerStyle={{ height: '100%' }}
+              />
+            </div>
+
             <Input
               label="Email"
-              onInput={onChangeEmailText}
+              onInput={(e: Event) => onChangeText(e, email)}
               placeholder="Your e-mail here"
             />
 
