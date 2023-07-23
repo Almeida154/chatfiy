@@ -12,4 +12,16 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    lib: {
+      entry: path.resolve(__dirname, 'src/main.ts'),
+      name: 'package-name',
+    },
+    rollupOptions: {
+      external: ['vue'],
+      output: {
+        globals: { vue: 'Vue' },
+      },
+    },
+  },
 });

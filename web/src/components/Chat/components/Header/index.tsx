@@ -10,7 +10,7 @@ const Header = ({ title, onClose }: IHeader) => (
     <h4 class="title">{title}</h4>
 
     <div role="button" class="icon-container" onClick={onClose}>
-      <v-icon name="hi-x-circle" scale="1.5" />
+      <v-icon name="hi-x" scale="1.3" />
     </div>
   </div>
 );

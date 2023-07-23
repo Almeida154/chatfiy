@@ -1,3 +1,5 @@
+import './styles.css';
+
 import { Ref, defineComponent, onMounted, ref } from 'vue';
 
 import { Socket, io } from 'socket.io-client';
@@ -7,11 +9,10 @@ interface IChatProps {
 }
 
 import { CHAT_STEPS } from '@/utils/constants';
-import { Button, Input, Textarea } from '@/components';
+import { Input } from '@/components';
 
 import { Bubble, Header, Submitter } from './components';
 
-import './styles.css';
 import { onChangeText } from '@/utils';
 
 const Chat = defineComponent({
@@ -21,13 +22,13 @@ const Chat = defineComponent({
 
   setup({ isOpen }: IChatProps) {
     const socketIO = ref<Socket | null>(null);
-    const currentStep = ref(CHAT_STEPS.STARTING);
+    const currentStep = ref(CHAT_STEPS.CONVERSATION);
 
-    const howCanWeHelp = ref<string>('');
+    const message = ref<string>('');
     const email = ref<string>('');
 
     onMounted(() => {
-      socketIO.value = io('ws://127.0.0.1:3333');
+      // socketIO.value = io('ws://127.0.0.1:3333');
     });
 
     const onClose = () => {
@@ -43,53 +44,117 @@ const Chat = defineComponent({
         ? 'Starting a conversation'
         : 'In attendance';
 
-    const onStartConversation = () => {
+    const generateSubmitterPlaceholder = () =>
+      currentStep.value === CHAT_STEPS.STARTING
+        ? 'How can we help you?'
+        : 'Type your message';
+
+    const startChat = () => {
       currentStep.value = CHAT_STEPS.CONVERSATION;
+    };
+
+    const sendMessage = () => {
+      message.value = '';
+    };
+
+    const onMessageSubmit = () => {
+      if (currentStep.value === CHAT_STEPS.STARTING) {
+        startChat();
+      }
+
+      sendMessage();
     };
 
     return () => (
       <div
         class={`${isOpen.value ? 'chat-container should-appear' : 'chat-container'}`}
       >
-        <Header onClose={onClose} title={generateHeaderTitle()} />
+        <div>
+          <Header onClose={onClose} title={generateHeaderTitle()} />
 
-        {currentStep.value === CHAT_STEPS.STARTING ? (
-          <>
-            <div class="textarea-wrapper">
-              <Textarea
-                label="How can we help you?"
-                onInput={(e: Event) => onChangeText(e, howCanWeHelp)}
-                placeholder="Subject"
-                containerStyle={{ height: '100%' }}
+          {currentStep.value === CHAT_STEPS.STARTING && (
+            <>
+              <p class="warning-message">
+                Do not post any sensitive data in this chat window.{' '}
+                <a
+                  href="http://"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="link"
+                >
+                  Learn about it
+                </a>
+              </p>
+
+              <Input
+                label="Email"
+                onInput={(e: Event) => onChangeText(e, email)}
+                placeholder="Your e-mail here"
               />
-            </div>
+            </>
+          )}
+        </div>
 
-            <Input
-              label="Email"
-              onInput={(e: Event) => onChangeText(e, email)}
-              placeholder="Your e-mail here"
-            />
-
-            <div class="button-wrapper">
-              <Button
-                text="Start"
-                icon="hi-chat-alt-2"
-                style={{ width: 'fit-content' }}
-                onPress={onStartConversation}
-              />
-            </div>
-          </>
-        ) : (
-          <>
+        {currentStep.value === CHAT_STEPS.CONVERSATION && (
+          <div class="chat-content">
             <div class="chat-messages">
-              <Bubble />
-              <Bubble />
-              <Bubble />
-            </div>
+              <Bubble
+                message="hello"
+                timestamp={new Date()}
+                isMessageByCurrentUser={true}
+              />
 
-            <Submitter />
-          </>
+              <Bubble
+                message="hi!"
+                timestamp={new Date()}
+                isMessageByCurrentUser={false}
+              />
+
+              <Bubble
+                message="sup?"
+                timestamp={new Date()}
+                isMessageByCurrentUser={true}
+              />
+
+              <Bubble
+                message="i have a problem, bro. can you help me?"
+                timestamp={new Date()}
+                isMessageByCurrentUser={true}
+              />
+
+              <Bubble
+                message="yeah, what is up?"
+                timestamp={new Date()}
+                isMessageByCurrentUser={false}
+              />
+
+              <Bubble
+                message="we can help you for sure"
+                timestamp={new Date()}
+                isMessageByCurrentUser={false}
+              />
+
+              <Bubble
+                message="we can help you for sure"
+                timestamp={new Date()}
+                isMessageByCurrentUser={false}
+              />
+
+              <Bubble
+                message="we can help you for sure"
+                timestamp={new Date()}
+                isMessageByCurrentUser={false}
+              />
+            </div>
+          </div>
         )}
+
+        <Submitter
+          onSubmit={onMessageSubmit}
+          onInput={(e: Event) => onChangeText(e, message)}
+          placeholder={generateSubmitterPlaceholder()}
+          value={message.value}
+        />
       </div>
     );
   },

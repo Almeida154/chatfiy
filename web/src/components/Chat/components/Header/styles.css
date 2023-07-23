@@ -1,11 +1,14 @@
 .header-container {
-  background: #00000020;
-  color: #ffffff90;
-  padding: 16px;
+  color: #ffffff;
+  padding-bottom: 16px;
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  .title {
+    font-size: 1.3rem;
+  }
 }
 
 .header-container .icon-container {
