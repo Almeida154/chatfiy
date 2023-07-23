@@ -4,7 +4,7 @@ import { Ref, defineComponent, onMounted, ref } from 'vue';
 
 import { Socket, io } from 'socket.io-client';
 
-interface IChatProps {
+interface IClientChatProps {
   isOpen: Ref<boolean>;
 }
 
@@ -29,12 +29,12 @@ import { Bubble, Header, Submitter } from './components';
 
 import { onChangeText } from '@/utils';
 
-const Chat = defineComponent({
+const ClientChat = defineComponent({
   props: {
     isOpen: { type: Object as () => Ref<boolean>, required: true },
   },
 
-  setup({ isOpen }: IChatProps) {
+  setup({ isOpen }: IClientChatProps) {
     const socketIO = ref<Socket | null>(null);
     const currentStep = ref(CHAT_STEPS.STARTING);
 
@@ -159,4 +159,4 @@ const Chat = defineComponent({
   },
 });
 
-export { Chat };
+export { ClientChat };
