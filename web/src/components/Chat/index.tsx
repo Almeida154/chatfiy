@@ -8,6 +8,20 @@ interface IChatProps {
   isOpen: Ref<boolean>;
 }
 
+interface User {
+  id: string;
+  email: string;
+}
+
+interface Message {
+  admin_id: string;
+  created_at: Date;
+  updated_at: Date;
+  id: string;
+  text: string;
+  user: User;
+}
+
 import { CHAT_STEPS } from '@/utils/constants';
 import { Input } from '@/components';
 
@@ -22,13 +36,16 @@ const Chat = defineComponent({
 
   setup({ isOpen }: IChatProps) {
     const socketIO = ref<Socket | null>(null);
-    const currentStep = ref(CHAT_STEPS.CONVERSATION);
+    const currentStep = ref(CHAT_STEPS.STARTING);
 
-    const message = ref<string>('');
-    const email = ref<string>('');
+    const message = ref<string>('aaa');
+    const email = ref<string>('davod@gmail');
+
+    const messages = ref<Message[]>([]);
 
     onMounted(() => {
-      // socketIO.value = io('ws://127.0.0.1:3333');
+      socketIO.value = io('ws://127.0.0.1:3333');
+      getAllMessages();
     });
 
     const onClose = () => {
@@ -50,16 +67,37 @@ const Chat = defineComponent({
         : 'Type your message';
 
     const startChat = () => {
+      if (email.value === '' || message.value === '') return;
+
+      socketIO.value?.emit('start_chat', {
+        email: email.value,
+        message: message.value,
+      });
+
       currentStep.value = CHAT_STEPS.CONVERSATION;
+      message.value = '';
+    };
+
+    const getAllMessages = () => {
+      socketIO.value?.on('client_all_messages', (msgs) => {
+        messages.value = msgs;
+      });
     };
 
     const sendMessage = () => {
+      if (message.value === '') return;
+
+      socketIO.value?.emit('send_client_message', {
+        text: message.value,
+      });
+
       message.value = '';
     };
 
     const onMessageSubmit = () => {
       if (currentStep.value === CHAT_STEPS.STARTING) {
         startChat();
+        return;
       }
 
       sendMessage();
@@ -90,6 +128,7 @@ const Chat = defineComponent({
                 label="Email"
                 onInput={(e: Event) => onChangeText(e, email)}
                 placeholder="Your e-mail here"
+                value={email.value}
               />
             </>
           )}
@@ -98,53 +137,13 @@ const Chat = defineComponent({
         {currentStep.value === CHAT_STEPS.CONVERSATION && (
           <div class="chat-content">
             <div class="chat-messages">
-              <Bubble
-                message="hello"
-                timestamp={new Date()}
-                isMessageByCurrentUser={true}
-              />
-
-              <Bubble
-                message="hi!"
-                timestamp={new Date()}
-                isMessageByCurrentUser={false}
-              />
-
-              <Bubble
-                message="sup?"
-                timestamp={new Date()}
-                isMessageByCurrentUser={true}
-              />
-
-              <Bubble
-                message="i have a problem, bro. can you help me?"
-                timestamp={new Date()}
-                isMessageByCurrentUser={true}
-              />
-
-              <Bubble
-                message="yeah, what is up?"
-                timestamp={new Date()}
-                isMessageByCurrentUser={false}
-              />
-
-              <Bubble
-                message="we can help you for sure"
-                timestamp={new Date()}
-                isMessageByCurrentUser={false}
-              />
-
-              <Bubble
-                message="we can help you for sure"
-                timestamp={new Date()}
-                isMessageByCurrentUser={false}
-              />
-
-              <Bubble
-                message="we can help you for sure"
-                timestamp={new Date()}
-                isMessageByCurrentUser={false}
-              />
+              {messages.value?.map((message) => (
+                <Bubble
+                  message={message.text}
+                  timestamp={message.created_at}
+                  isMessageByCurrentUser={message.admin_id === null}
+                />
+              ))}
             </div>
           </div>
         )}

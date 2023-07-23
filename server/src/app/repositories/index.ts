@@ -1,5 +1,5 @@
-import { SettingRepository } from './SettingRepository';
 import { UserRepository } from './UserRepository';
 import { MessageRepository } from './MessageRepository';
+import { ConnectionRepository } from './ConnectionRepository';
 
-export { SettingRepository, UserRepository, MessageRepository };
+export { UserRepository, MessageRepository, ConnectionRepository };

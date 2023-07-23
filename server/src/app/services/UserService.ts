@@ -18,6 +18,22 @@ class UserService {
 
     return user;
   };
+
+  findByEmail = async ({ email }) => {
+    const user = await UserRepository.findOne({ where: { email } });
+    return user;
+  };
+
+  findOrCreate = async ({ email }) => {
+    let user = await UserRepository.findOne({ where: { email } });
+
+    if (!user) {
+      user = UserRepository.create({ email });
+      await UserRepository.save(user);
+    }
+
+    return user;
+  };
 }
 
 export default new UserService();

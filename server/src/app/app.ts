@@ -19,10 +19,10 @@ class App {
 
   public initialize(): void {
     this.configureCors();
-    this.configureWebSocket();
     this.configureDataSource();
     this.configureMiddleware();
     this.configureRoutes();
+    this.configureWebSocket();
   }
 
   private configureWebSocket(): void {

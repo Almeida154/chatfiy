@@ -1,5 +1,5 @@
-import { SettingEntity } from './SettingEntity';
 import { UserEntity } from './UserEntity';
 import { MessageEntity } from './MessageEntity';
+import { ConnectionEntity } from './ConnectionEntity';
 
-export { SettingEntity, UserEntity, MessageEntity };
+export { UserEntity, MessageEntity, ConnectionEntity };
