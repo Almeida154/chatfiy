@@ -14,18 +14,16 @@ interface User {
 }
 
 interface Message {
-  admin_id: string;
+  admin_id: string | null;
   created_at: Date;
   updated_at: Date;
   id: string;
   text: string;
-  user: User;
+  user: User | null;
 }
 
 import { CHAT_STEPS } from '@/utils/constants';
-import { Input } from '@/components';
-
-import { Bubble, Header, Submitter } from './components';
+import { Input, Bubble, Header, Submitter } from '@/components';
 
 import { onChangeText } from '@/utils';
 
@@ -41,11 +39,14 @@ const ClientChat = defineComponent({
     const message = ref<string>('aaa');
     const email = ref<string>('davod@gmail');
 
+    const adminSocketId = ref<string>('');
+
     const messages = ref<Message[]>([]);
 
     onMounted(() => {
       socketIO.value = io('ws://127.0.0.1:3333');
       getAllMessages();
+      getAdminMessage();
     });
 
     const onClose = () => {
@@ -80,7 +81,15 @@ const ClientChat = defineComponent({
 
     const getAllMessages = () => {
       socketIO.value?.on('client_all_messages', (msgs) => {
+        console.log(msgs);
         messages.value = msgs;
+      });
+    };
+
+    const getAdminMessage = () => {
+      socketIO.value?.on('admin_message_sent', ({ msg, socketId }) => {
+        messages.value.push(msg);
+        adminSocketId.value = socketId;
       });
     };
 
@@ -89,6 +98,16 @@ const ClientChat = defineComponent({
 
       socketIO.value?.emit('send_client_message', {
         text: message.value,
+        adminSocketId: adminSocketId.value,
+      });
+
+      messages.value.push({
+        admin_id: null,
+        created_at: new Date(),
+        updated_at: new Date(),
+        id: String(Math.random()),
+        text: message.value,
+        user: null,
       });
 
       message.value = '';

@@ -41,6 +41,13 @@ class ConnectionService {
 
     return connection;
   };
+
+  findAll = async () => {
+    const connections = await ConnectionRepository.find({
+      relations: { user: true },
+    });
+    return connections;
+  };
 }
 
 export default new ConnectionService();

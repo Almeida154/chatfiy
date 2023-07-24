@@ -1,6 +1,6 @@
 import './reset.css';
 
-// @ts-expect-error i don't know
+// @ts-expect-error
 import { createApp } from 'vue/dist/vue.esm-bundler.js';
 import { OhVueIcon, addIcons } from 'oh-vue-icons';
 import { createRouter, createWebHistory } from 'vue-router';
