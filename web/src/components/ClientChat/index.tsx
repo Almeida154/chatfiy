@@ -36,8 +36,8 @@ const ClientChat = defineComponent({
     const socketIO = ref<Socket | null>(null);
     const currentStep = ref(CHAT_STEPS.STARTING);
 
-    const message = ref<string>('aaa');
-    const email = ref<string>('davod@gmail');
+    const message = ref<string>('');
+    const email = ref<string>('');
 
     const adminSocketId = ref<string>('');
 
